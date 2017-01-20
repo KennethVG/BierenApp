@@ -4,7 +4,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import masterdetail.pxl.be.bierenapp.data.TestData;
+import masterdetail.pxl.be.bierenapp.model.Bier;
 
 /**
  * Created by vangike on 20/01/2017.
@@ -12,10 +16,12 @@ import masterdetail.pxl.be.bierenapp.data.TestData;
 
 public class BierenAdapter extends BaseAdapter {
 
-    private TestData data;
+    private List<Bier> bierenlijst;
 
     public BierenAdapter() {
-        data = new TestData();
+        // Testdata in lijst plaatsen
+        TestData data = new TestData();
+        bierenlijst = new ArrayList<>(data.getBieren());
     }
 
     @Override
@@ -25,7 +31,7 @@ public class BierenAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return position;
     }
 
     @Override
