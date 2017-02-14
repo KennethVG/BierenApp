@@ -1,5 +1,6 @@
 package masterdetail.pxl.be.bierenapp;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,10 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import masterdetail.pxl.be.bierenapp.data.TestData;
+import masterdetail.pxl.be.bierenapp.data.DatabaseHelper;
 import masterdetail.pxl.be.bierenapp.model.Bier;
 
 public class BierenDetailFragment extends Fragment {
@@ -56,8 +56,9 @@ public class BierenDetailFragment extends Fragment {
     }
 
     private void setTextViews(int pos) {
-        bieren = new ArrayList<>(new TestData().getBieren());
-        Bier mijnBier = bieren.get(pos);
+        DatabaseHelper helper = new DatabaseHelper(getActivity());
+        Cursor c = helper.getBeer(pos + 1);
+        Bier mijnBier = new Bier(c.getString(1), c.getString(2), c.getDouble(3), c.getString(4));
         mTxtNaam.setText(mijnBier.getNaam());
         mTxtInfo.setText(mijnBier.getInfo());
         mTxtSterkte.setText(String.valueOf(mijnBier.getSterkte()));

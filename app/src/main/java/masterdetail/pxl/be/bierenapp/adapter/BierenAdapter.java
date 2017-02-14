@@ -1,6 +1,7 @@
 package masterdetail.pxl.be.bierenapp.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import masterdetail.pxl.be.bierenapp.R;
-import masterdetail.pxl.be.bierenapp.data.TestData;
+import masterdetail.pxl.be.bierenapp.data.DatabaseHelper;
 import masterdetail.pxl.be.bierenapp.model.Bier;
 
 public class BierenAdapter extends BaseAdapter {
@@ -19,11 +20,18 @@ public class BierenAdapter extends BaseAdapter {
     private List<Bier> mBierenlijst;
     private Context mContext;
 
+
     public BierenAdapter(Context context) {
-        // Testdata in lijst plaatsen
-        TestData data = new TestData();
-        mBierenlijst = new ArrayList<>(data.getBieren());
         this.mContext = context;
+        mBierenlijst = new ArrayList<>();
+        DatabaseHelper helper = new DatabaseHelper(context);
+
+        Cursor c = helper.getAllBeers();
+        while (c.moveToNext()){
+            Bier myBeer= new Bier(c.getString(1), c.getString(2), c.getDouble(3), c.getString(4));
+            mBierenlijst.add(myBeer);
+        }
+
     }
 
     @Override

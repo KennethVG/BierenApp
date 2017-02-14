@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import masterdetail.pxl.be.bierenapp.adapter.BierenAdapter;
+import masterdetail.pxl.be.bierenapp.adapter.BierenCursorAdapter;
+import masterdetail.pxl.be.bierenapp.data.DatabaseHelper;
 
 public class MainActivityFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private ListView mLstBieren;
-    private BierenAdapter adapter;
+    //    private BierenAdapter adapter;
+    private BierenCursorAdapter cursorAdapter;
     private OnBeerSelected mListener;
 
     public MainActivityFragment() {
@@ -26,9 +28,11 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         mLstBieren = (ListView) view.findViewById(R.id.lst_bieren);
-        adapter = new BierenAdapter(getActivity());
-        mLstBieren.setAdapter(adapter);
+        //adapter = new BierenAdapter(getActivity());
 
+        DatabaseHelper helper = new DatabaseHelper(getActivity());
+        cursorAdapter = new BierenCursorAdapter(getActivity(), helper.getAllBeers());
+        mLstBieren.setAdapter(cursorAdapter);
         mLstBieren.setOnItemClickListener(this);
 
         return view;
